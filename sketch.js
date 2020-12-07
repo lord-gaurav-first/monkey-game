@@ -40,7 +40,7 @@ function setup() {
 
 
 function draw() {
-   background("white");
+   background("lightBlue");
   
   drawSprites();
   
@@ -59,7 +59,7 @@ function draw() {
 
     monkey.velocityY= monkey.velocityY + 0.4;
 
-    ground.velocityX= -4;
+    ground.velocityX= -(6 + score*2);
 
     if (ground.x < 0) {
       ground.x = ground.width/2;
@@ -89,6 +89,8 @@ function draw() {
      //set lifetime of the game objects so that they are never destroyed
      obstaclesGroup.setLifetimeEach(-1);
      fruitsGroup.setLifetimeEach(-1);
+    
+     monkey.velocityY= monkey.velocityY + 0.4;
   }
 }
 
@@ -100,17 +102,21 @@ function bananas(){
     banana.lifetime= 180;
     banana.velocityX= -5;
     fruitsGroup.add(banana);
+    return banana
   }
 }
 
 function obstacles() {
   if (frameCount%300=== 0) {
-    obstacle= createSprite(655, 360, 10, 10);
+    obstacle= createSprite(655, 365, 10, 10);
     obstacle.addImage("obstacle", obstacleImage);
     obstacle.scale= 0.2;
     obstacle.lifetime= 200;
     obstacle.velocityX= -4.5;
     obstaclesGroup.add(obstacle);
-    obstacle.setCollider("circle", -80, 0, 240);
+    obstacle.setCollider("circle", -30, 0, 240);
+    //obstacle.debug= true;
+    obstacle.rotation= 5;
+    return obstacle
   }
 }
