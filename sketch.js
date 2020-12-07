@@ -45,15 +45,9 @@ function draw() {
   drawSprites();
   
   monkey.collide(ground);
-  
-    stroke("black");
-    fill("black");
-    textSize(22);
-    text("Survival Time: " + score, 200, 60);
-  
   if (gameState=== PLAY){
       
-    if (keyDown("space") && monkey.y >= 360) {
+    if (keyDown("space") && monkey.y >= 360 && gameState=== PLAY) {
      monkey.velocityY= -13;
     }
 
@@ -68,43 +62,48 @@ function draw() {
      bananas();
      obstacles();
 
+     stroke("black");
+     fill("black");
+     textSize(22);
+     text("Survival Time: " + score, 200, 60);
+
      score= Math.round(frameCount/60);
     
     if (obstaclesGroup.isTouching(monkey)){
         gameState= END;
+      
+        monkey.pause();
+      
+        obstaclesGroup.setVelocityXEach(0);
+        fruitsGroup.setVelocityXEach(0);
+      
+        ground.velocityX= 0;
+
+        //set lifetime of the game objects so that they are never destroyed
+        obstaclesGroup.setLifetimeEach(-1);
+        fruitsGroup.setLifetimeEach(-1);
+
+       score= 0;
      }
     
     if (fruitsGroup.isTouching(monkey)) {
-       fruitsGroup.destroyEach();
+      fruitsGroup.destroyEach();
     }
     
-  }else if(gameState=== END) {  
-     monkey.pause();
-    
-    monkey.velocityY= monkey.velocityY + 12;
-      
-     obstaclesGroup.setVelocityXEach(0);
-     fruitsGroup.setVelocityXEach(0);
-      
-     ground.velocityX= 0;
+  }else if(gameState=== END) {
 
-     //set lifetime of the game objects so that they are never destroyed
-     obstaclesGroup.setLifetimeEach(-1);
-     fruitsGroup.setLifetimeEach(-1);
   }
 }
 
 function bananas(){
   if (frameCount%80=== 0) {
-    banana= createSprite(620, Math.round(random(120, 200)), 10, 10);
+    banana= createSprite(660, Math.round(random(120, 200)), 10, 10);
     banana.addImage("banana", bananaImage);
     banana.scale= 0.1;
     banana.lifetime= 180;
     banana.velocityX= -5;
     fruitsGroup.add(banana);
-    if (monkey.isTouching(banana)) {
-      banana.destroy();
-    }
+   // banana.frameCount
   }
 }
 
