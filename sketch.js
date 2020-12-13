@@ -74,8 +74,13 @@ function draw() {
         gameState= END;
      }
     
+    //code for one banana destroying one at a time
     if (fruitsGroup.isTouching(monkey)) {
-       fruitsGroup.destroyEach();
+       for (var i = 0; i<fruitsGroup.length; i++){
+         if (fruitsGroup.get(i).isTouching(monkey)){
+           fruitsGroup.get(i).remove();
+         }
+      }
     }
     
   }else if(gameState=== END) {  
