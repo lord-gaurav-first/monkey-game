@@ -57,7 +57,7 @@ function draw() {
      monkey.velocityY= -13;
     }
 
-    monkey.velocityY= monkey.velocityY + 0.3;
+    monkey.velocityY= monkey.velocityY + 0.2;
 
     ground.velocityX= -(6 + score*2);
 
